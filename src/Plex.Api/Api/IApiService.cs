@@ -4,7 +4,7 @@ namespace Plex.Api.Api
 {
     public interface IApiService
     {
-        Task InvokeApiAsync(ApiRequest request);
-        Task<T> InvokeApiAsync<T>(ApiRequest request);
+        Task InvokeApiAsync(IApiRequest request);
+        Task<T> InvokeApiAsync<T>(IApiRequest request);
     }
 }

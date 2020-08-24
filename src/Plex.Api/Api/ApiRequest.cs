@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Plex.Api.Api
 {
-    public class ApiRequest
+    public class ApiRequest : IApiRequest
     {
         public ApiRequest(string endpoint, string baseUri, HttpMethod httpMethod,
             Dictionary<string, string> requestHeaders, Dictionary<string, string> contentHeaders, object body,
@@ -24,8 +24,11 @@ namespace Plex.Api.Api
         public string BaseUri { get; }
         public HttpMethod HttpMethod { get; }
         public Dictionary<string, string> RequestHeaders { get; }
+        IDictionary<string, string> IApiRequest.RequestHeaders => this.RequestHeaders;
         public Dictionary<string, string> ContentHeaders { get; }
+        IDictionary<string, string> IApiRequest.ContentHeaders => this.ContentHeaders;
         public Dictionary<string, string> QueryParams { get; }
+        IDictionary<string, string> IApiRequest.QueryParams => this.QueryParams;
         public object Body { get; }
 
         public string FullUri

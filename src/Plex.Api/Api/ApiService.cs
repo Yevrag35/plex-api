@@ -30,7 +30,7 @@ namespace Plex.Api.Api
             _logger = logger;
         }
 
-        public async Task InvokeApiAsync(ApiRequest request)
+        public async Task InvokeApiAsync(IApiRequest request)
         {
             using var httpRequestMessage = CreateHttpRequestMessage(request);
 
@@ -47,7 +47,7 @@ namespace Plex.Api.Api
             }
         }
 
-        public async Task<T> InvokeApiAsync<T>(ApiRequest request)
+        public async Task<T> InvokeApiAsync<T>(IApiRequest request)
         {
             using var httpRequestMessage = CreateHttpRequestMessage(request);
 
@@ -87,7 +87,7 @@ namespace Plex.Api.Api
             return response;
         }
 
-        private static void AddRequestHeaders(HttpRequestMessage httpRequestMessage, Dictionary<string, string> headers)
+        private static void AddRequestHeaders(HttpRequestMessage httpRequestMessage, IDictionary<string, string> headers)
         {
             foreach (var (key, value) in headers)
             {
@@ -95,7 +95,7 @@ namespace Plex.Api.Api
             }
         }
 
-        private static HttpRequestMessage CreateHttpRequestMessage(ApiRequest request)
+        private static HttpRequestMessage CreateHttpRequestMessage(IApiRequest request)
         {
             var httpRequestMessage = new HttpRequestMessage(request.HttpMethod, request.FullUri);
             AddRequestHeaders(httpRequestMessage, request.RequestHeaders);
@@ -116,7 +116,7 @@ namespace Plex.Api.Api
             httpRequestMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
         }
 
-        private async Task LogApiUnsuccessful(ApiRequest request, HttpResponseMessage httpResponse)
+        private async Task LogApiUnsuccessful(IApiRequest request, HttpResponseMessage httpResponse)
         {
             _logger.LogInformation($"StatusCode: {httpResponse.StatusCode}. Request Uri: {request.FullUri}");
 
